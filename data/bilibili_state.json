@@ -1,0 +1,21 @@
+{
+  "channels": {
+    "1265652806": {
+      "initialized_at": "2026-07-09T00:10:12.530180+08:00",
+      "latest_pub_ts": 1783479748,
+      "seen_bvids": [
+        "BV1a5Me6gEda",
+        "BV1JkTD6wEv9",
+        "BV161Tr6ME6E"
+      ]
+    },
+    "161775300": {
+      "initialized_at": "2026-07-09T00:10:15.879873+08:00",
+      "latest_pub_ts": 1783479610,
+      "seen_bvids": [
+        "BV1bHMe6vEJN"
+      ]
+    }
+  },
+  "updated_at": "2026-07-09T00:10:15.880019+08:00"
+}
