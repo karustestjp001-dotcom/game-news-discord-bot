@@ -1,0 +1,5 @@
+__pycache__/
+*.py[cod]
+.env
+game_news_final_report.md
+game_news_source.md

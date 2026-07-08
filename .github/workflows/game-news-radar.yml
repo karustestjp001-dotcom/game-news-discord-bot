@@ -1,0 +1,44 @@
+name: Game News Radar
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "0 15 * * *"
+
+jobs:
+  game-news:
+    runs-on: ubuntu-latest
+    env:
+      PYTHONUTF8: "1"
+      DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.x"
+
+      - name: Generate game-news report
+        run: |
+          python scripts/game_news_report.py \
+            --lookback-days 4 \
+            --top-per-category 5 \
+            --output game_news_final_report.md \
+            --source-output game_news_source.md
+
+      - name: Upload generated reports
+        uses: actions/upload-artifact@v4
+        with:
+          name: game-news-report
+          path: |
+            game_news_final_report.md
+            game_news_source.md
+
+      - name: Post report to Discord
+        if: env.DISCORD_WEBHOOK_URL != ''
+        run: |
+          python scripts/post_markdown_to_discord.py \
+            game_news_final_report.md \
+            --title "遊戲新聞貓娘雷達"
