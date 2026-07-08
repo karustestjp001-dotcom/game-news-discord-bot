@@ -36,6 +36,19 @@ DISCORD_WEBHOOK_URL
 
 如果沒有設定 webhook，workflow 仍會產生 Markdown artifact，但不會發 Discord。
 
+## Bilibili 頻道轉發
+
+`.github/workflows/bilibili-video-forwarder.yml` 會每小時掃一次這兩個 Bilibili 頻道，只轉發新影片：
+
+```text
+明日方舟终末地：https://space.bilibili.com/1265652806
+明日方舟：https://space.bilibili.com/161775300
+```
+
+第一次成功掃描會建立 `data/bilibili_state.json` 作為基準，不會把舊影片一次洗版；之後只要掃到新的 BV 影片，就會發到同一個 Discord webhook。狀態檔會由 GitHub Actions 自動 commit 回 repo，避免重複轉發。
+
+Bilibili 有時會對雲端 IP 觸發風控。如果 workflow 顯示 Bilibili 取不到資料，請在 repo secrets 補一個可用的 `BILIBILI_COOKIE`，腳本會自動帶 cookie 讀公開頻道影片。
+
 ## 點評模式
 
 目前是全自動規則點評：程式依來源、關鍵字、時效和分類產生熱度與重要度，再寫出繁中判讀。優點是穩定、便宜、可定時；缺點是它只讀 RSS 標題與來源，不會像 Codex 親自讀完候選新聞後那樣有細緻判斷。
