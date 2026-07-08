@@ -30,7 +30,14 @@ jobs:
         with:
           python-version: "3.x"
 
+      - name: Skip without Bilibili cookie
+        if: env.BILIBILI_COOKIE == ''
+        run: |
+          echo "BILIBILI_COOKIE is not set, so Bilibili scanning is skipped."
+          echo "Add a repo secret named BILIBILI_COOKIE to enable this workflow."
+
       - name: Check Bilibili channels
+        if: env.BILIBILI_COOKIE != ''
         run: |
           python scripts/bilibili_video_forwarder.py \
             --state-file data/bilibili_state.json
