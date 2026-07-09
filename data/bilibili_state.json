@@ -2,8 +2,10 @@
   "channels": {
     "1265652806": {
       "initialized_at": "2026-07-09T00:10:12.530180+08:00",
-      "latest_pub_ts": 1783479748,
+      "last_posted_at": "2026-07-09T18:15:20.299196+08:00",
+      "latest_pub_ts": 1783566150,
       "seen_bvids": [
+        "BV1huME6tE7C",
         "BV1a5Me6gEda",
         "BV1JkTD6wEv9",
         "BV161Tr6ME6E"
@@ -17,5 +19,5 @@
       ]
     }
   },
-  "updated_at": "2026-07-09T00:10:15.880019+08:00"
+  "updated_at": "2026-07-09T18:15:24.513551+08:00"
 }
