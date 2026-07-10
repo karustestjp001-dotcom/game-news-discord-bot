@@ -2,8 +2,6 @@ name: Game News Radar
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 15 * * *"
 
 jobs:
   game-news:
@@ -27,8 +25,6 @@ jobs:
           python scripts/game_news_report.py \
             --lookback-days 4 \
             --top-per-category 8 \
-            --ai-editor \
-            --require-ai \
             --output game_news_final_report.md \
             --source-output game_news_source.md
 
