@@ -4,12 +4,14 @@
 from __future__ import annotations
 
 import argparse
+import datetime as dt
 import json
 import os
 import textwrap
 import urllib.error
 import urllib.parse
 import urllib.request
+from pathlib import Path
 
 
 def split_section(section: str, limit: int) -> list[str]:
@@ -113,6 +115,30 @@ def post_json(
         raise RuntimeError(f"Discord webhook failed: HTTP {exc.code}: {detail}") from exc
 
 
+def taipei_today() -> str:
+    taipei = dt.timezone(dt.timedelta(hours=8))
+    return dt.datetime.now(taipei).strftime("%Y-%m-%d")
+
+
+def mark_sent(path: str, title: str, sent_date: str | None = None) -> None:
+    state_path = Path(path)
+    state_path.parent.mkdir(parents=True, exist_ok=True)
+    if state_path.exists():
+        with state_path.open("r", encoding="utf-8") as handle:
+            state = json.load(handle)
+    else:
+        state = {}
+    date_key = sent_date or taipei_today()
+    sent = state.setdefault("sent", {})
+    sent[date_key] = {
+        "title": title,
+        "sent_at": dt.datetime.now(dt.timezone(dt.timedelta(hours=8))).isoformat(),
+    }
+    with state_path.open("w", encoding="utf-8", newline="\n") as handle:
+        json.dump(state, handle, ensure_ascii=False, indent=2, sort_keys=True)
+        handle.write("\n")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Post Markdown to Discord.")
     parser.add_argument("markdown_file")
@@ -120,6 +146,8 @@ def main() -> int:
     parser.add_argument("--webhook-env", default="DISCORD_WEBHOOK_URL")
     parser.add_argument("--thread-id", help="Existing Discord forum/thread id to post into.")
     parser.add_argument("--thread-name", help="Create a new forum thread with this name.")
+    parser.add_argument("--sent-state", help="Write a sent marker JSON file after all Discord chunks succeed.")
+    parser.add_argument("--sent-date", help="Date key to mark as sent, defaults to today's Taipei date.")
     args = parser.parse_args()
 
     webhook_url = os.environ.get(args.webhook_env)
@@ -147,6 +175,9 @@ def main() -> int:
         )
         if create_thread and response:
             thread_id = str(response.get("channel_id") or "")
+
+    if args.sent_state:
+        mark_sent(args.sent_state, args.title, args.sent_date)
 
     return 0
 
