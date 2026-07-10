@@ -13,7 +13,9 @@ import argparse
 import datetime as dt
 import email.utils
 import html
+import json
 import math
+import os
 import re
 import sys
 import urllib.error
@@ -217,6 +219,7 @@ class Article:
     importance: int = 0
     level: str = "LOW"
     matched_keywords: list[str] = field(default_factory=list)
+    summary: str = ""
 
 
 def now_taipei() -> dt.datetime:
@@ -367,7 +370,8 @@ def fetch_category_articles(
             if published and published < min_time:
                 continue
             source = infer_source(item, title)
-            combined = f"{title} {source}"
+            summary = clean_text(item.findtext("description"))
+            combined = f"{title} {source} {summary}"
             score, matched = keyword_score(combined, profile["keywords"])
             if score < profile["min_keyword_score"]:
                 continue
@@ -380,6 +384,7 @@ def fetch_category_articles(
                 keyword_score=score,
                 source_score=source_weight(source),
                 matched_keywords=matched,
+                summary=summary,
             )
             recency = recency_score(published, reference)
             article.heat = round(score * 3.6 + article.source_score * 2.3 + recency, 1)
@@ -517,8 +522,103 @@ def generate_source_dump(categorized: dict[str, list[Article]]) -> str:
             matched = "、".join(article.matched_keywords) or "無"
             lines.append(article_line(article))
             lines.append(f"命中關鍵字：{matched}")
+            if article.summary:
+                lines.append(f"RSS 摘要：{article.summary}")
             lines.append("")
     return "\n".join(lines).strip() + "\n"
+
+
+def extract_response_text(payload: dict[str, Any]) -> str:
+    if isinstance(payload.get("output_text"), str):
+        return payload["output_text"].strip()
+
+    parts: list[str] = []
+    for output in payload.get("output", []) or []:
+        for content in output.get("content", []) or []:
+            text = content.get("text")
+            if isinstance(text, str):
+                parts.append(text)
+    return "\n".join(parts).strip()
+
+
+def generate_ai_editor_report(
+    source_dump: str,
+    *,
+    model: str,
+    api_key: str,
+    timeout: int = 90,
+) -> str:
+    generated = now_taipei().strftime("%Y-%m-%d %H:%M")
+    system_prompt = (
+        "你是遊戲新聞 AI 編輯。你要從候選清單中挑真正值得玩家知道的新聞，"
+        "寫成繁體中文 Discord 日報。語氣可愛、有貓娘感，但判斷要像嚴格編輯，"
+        "不要照單全收，不要寫空泛模板，不要發明候選清單沒有的事實。"
+    )
+    user_prompt = f"""
+請把下面的遊戲新聞候選清單改寫成「AI 編輯版」日報。
+
+硬性規則：
+- 只使用候選清單中的新聞與連結，不要新增外部新聞。
+- 優先挑 8-15 則；如果候選品質差，可以少於 8 則，並在總覽說明。
+- 分類保留：中國手遊/二遊、Steam 大作/PC 遊戲、高期待獨立遊戲、主機/歐美日大作、營運/產業警訊。
+- 每則新聞要有一段 1-3 句短評，說清楚「為什麼值得看」或「為什麼先觀望」。
+- 排除看起來像低價值列表文、純影片預告洗稿、來源弱且沒有明確事件的新聞。
+- 不全文轉載，不要大段引用原文。
+- 不要使用 Markdown 表格。
+- 不要包 code fence。
+- 直接輸出最終 Markdown。
+
+建議結構：
+# 遊戲新聞貓娘雷達｜AI 編輯版
+生成時間：{generated} 台北時間
+
+## 今日判斷
+用 3-5 句說今天遊戲圈真正值得看的方向。
+
+## 精選新聞
+依分類分段，每則格式：
+[標題](連結)
+編輯判斷：...
+熱度標記：...
+
+## 觀望/剔除邏輯
+用 2-4 句說哪些類型被降權，讓讀者知道不是無腦搬運。
+
+候選清單如下：
+
+{source_dump}
+""".strip()
+    body = json.dumps(
+        {
+            "model": model,
+            "input": [
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": user_prompt},
+            ],
+            "max_output_tokens": 3600,
+        }
+    ).encode("utf-8")
+    request = urllib.request.Request(
+        "https://api.openai.com/v1/responses",
+        data=body,
+        headers={
+            "Authorization": f"Bearer {api_key}",
+            "Content-Type": "application/json; charset=utf-8",
+            "User-Agent": DEFAULT_USER_AGENT,
+        },
+        method="POST",
+    )
+    try:
+        with urllib.request.urlopen(request, timeout=timeout) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except urllib.error.HTTPError as exc:
+        detail = exc.read().decode("utf-8", errors="replace")
+        raise RuntimeError(f"OpenAI API failed: HTTP {exc.code}: {detail}") from exc
+
+    text = extract_response_text(payload)
+    if not text:
+        raise RuntimeError("OpenAI API returned no output text.")
+    return text.strip() + "\n"
 
 
 def main() -> int:
@@ -527,11 +627,21 @@ def main() -> int:
     parser.add_argument("--top-per-category", type=int, default=5)
     parser.add_argument("--output", default="game_news_final_report.md")
     parser.add_argument("--source-output", default="game_news_source.md")
+    parser.add_argument("--ai-editor", action="store_true")
+    parser.add_argument("--require-ai", action="store_true")
+    parser.add_argument("--openai-model", default=os.environ.get("OPENAI_MODEL", "gpt-4.1-mini"))
+    parser.add_argument("--openai-key-env", default="OPENAI_API_KEY")
     args = parser.parse_args()
 
     categorized = fetch_all_articles(args.lookback_days, args.top_per_category)
-    report = generate_report(categorized, source_note="Google News RSS 多語系搜尋")
     source_dump = generate_source_dump(categorized)
+    api_key = os.environ.get(args.openai_key_env, "")
+    if args.ai_editor and api_key:
+        report = generate_ai_editor_report(source_dump, model=args.openai_model, api_key=api_key)
+    elif args.ai_editor and args.require_ai:
+        raise RuntimeError(f"Set {args.openai_key_env} to generate the required AI editor report.")
+    else:
+        report = generate_report(categorized, source_note="Google News RSS 多語系搜尋")
 
     with open(args.output, "w", encoding="utf-8", newline="\n") as handle:
         handle.write(report)

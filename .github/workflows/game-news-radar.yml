@@ -11,6 +11,8 @@ jobs:
     env:
       PYTHONUTF8: "1"
       DISCORD_WEBHOOK_URL: ${{ secrets.DISCORD_WEBHOOK_URL }}
+      OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+      OPENAI_MODEL: ${{ vars.OPENAI_MODEL || 'gpt-4.1-mini' }}
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -24,7 +26,9 @@ jobs:
         run: |
           python scripts/game_news_report.py \
             --lookback-days 4 \
-            --top-per-category 5 \
+            --top-per-category 8 \
+            --ai-editor \
+            --require-ai \
             --output game_news_final_report.md \
             --source-output game_news_source.md
 
