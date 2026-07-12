@@ -31,7 +31,7 @@ python ".\scripts\game_news_report.py" --lookback-days 4 --top-per-category 8 --
 
 2. 讀 `game_news_source.md`，不要直接發規則版 `game_news_final_report.md`。
 3. 由 Codex 重新寫 `game_news_final_report.md`：
-   - 標題使用 `# 遊戲新聞貓娘雷達｜Codex 編輯版`
+   - 標題使用 `# 遊戲新聞貓娘雷達`
    - 繁體中文。
    - 可愛貓娘情報語氣，但不要模板廢話。
    - 只使用候選清單裡的新聞與連結。
