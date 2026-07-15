@@ -2,17 +2,19 @@
   "channels": {
     "1265652806": {
       "initialized_at": "2026-07-09T00:10:12.530180+08:00",
-      "last_posted_at": "2026-07-11T02:10:00.491951+08:00",
-      "latest_pub_ts": 1783690203,
+      "last_posted_at": "2026-07-15T14:33:02.481342+08:00",
+      "latest_pub_ts": 1784086205,
       "seen_bvids": [
-        "BV1ubNJ6XEuD",
-        "BV1W6NJ6LEv1",
-        "BV1ACNJ6VEwP",
+        "BV1ExNt6oEUY",
+        "BV1dTNm6rEPA",
         "BV1EXNJ6TEm1",
-        "BV1huME6tE7C",
         "BV1a5Me6gEda",
+        "BV1ubNJ6XEuD",
         "BV1JkTD6wEv9",
-        "BV161Tr6ME6E"
+        "BV161Tr6ME6E",
+        "BV1huME6tE7C",
+        "BV1ACNJ6VEwP",
+        "BV1W6NJ6LEv1"
       ]
     },
     "161775300": {
@@ -26,5 +28,5 @@
       ]
     }
   },
-  "updated_at": "2026-07-12T15:40:25.143162+08:00"
+  "updated_at": "2026-07-15T14:33:14.881062+08:00"
 }
