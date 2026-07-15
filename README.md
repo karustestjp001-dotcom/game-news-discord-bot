@@ -38,11 +38,12 @@ DISCORD_WEBHOOK_URL
 
 ## Bilibili 頻道轉發
 
-`.github/workflows/bilibili-video-forwarder.yml` 會每小時掃一次這兩個 Bilibili 頻道，只轉發新影片：
+`.github/workflows/bilibili-video-forwarder.yml` 會每小時掃一次這些 Bilibili 頻道，只轉發新影片：
 
 ```text
 明日方舟终末地：https://space.bilibili.com/1265652806
 明日方舟：https://space.bilibili.com/161775300
+终末地Delta机器人：https://space.bilibili.com/3546983822264909
 ```
 
 第一次成功掃描會建立 `data/bilibili_state.json` 作為基準，不會把舊影片一次洗版；之後只要掃到新的 BV 影片，就會發到同一個 Discord webhook。狀態檔會由 GitHub Actions 自動 commit 回 repo，避免重複轉發。

@@ -29,6 +29,7 @@ from typing import Any
 DEFAULT_CHANNELS = {
     "1265652806": "明日方舟终末地",
     "161775300": "明日方舟",
+    "3546983822264909": "终末地Delta机器人",
 }
 
 DEFAULT_USER_AGENT = (
