@@ -344,16 +344,24 @@ def main() -> int:
 
     any_state_changed = False
     total_new = 0
+    checked_channels = 0
+    failed_channels: list[str] = []
     for index, (mid, author) in enumerate(channels.items()):
         if index:
             time.sleep(2)
-        videos = fetch_channel_videos(
-            mid,
-            author,
-            cookie=cookie,
-            rss_bases=rss_bases,
-            page_size=args.page_size,
-        )
+        try:
+            videos = fetch_channel_videos(
+                mid,
+                author,
+                cookie=cookie,
+                rss_bases=rss_bases,
+                page_size=args.page_size,
+            )
+        except RuntimeError as exc:
+            failed_channels.append(mid)
+            print(f"Failed to fetch Bilibili channel {mid}: {exc}", file=sys.stderr)
+            continue
+        checked_channels += 1
         new_videos, changed = select_new_videos(
             mid,
             videos,
@@ -374,7 +382,15 @@ def main() -> int:
     if any_state_changed:
         save_state(state_path, state)
 
-    print(f"Checked {len(channels)} Bilibili channels, forwarded {total_new} new videos.")
+    if checked_channels == 0 and failed_channels:
+        return 1
+
+    print(
+        f"Checked {checked_channels}/{len(channels)} Bilibili channels, "
+        f"forwarded {total_new} new videos."
+    )
+    if failed_channels:
+        print(f"Skipped failed channels: {', '.join(failed_channels)}", file=sys.stderr)
     return 0
 
 
