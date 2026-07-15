@@ -11,6 +11,7 @@ from __future__ import annotations
 import argparse
 import datetime as dt
 import email.utils
+import hashlib
 import html
 import json
 import os
@@ -40,6 +41,73 @@ DEFAULT_USER_AGENT = (
 
 TAIPEI = dt.timezone(dt.timedelta(hours=8))
 
+WBI_MIXIN_KEY_ENC_TAB = [
+    46,
+    47,
+    18,
+    2,
+    53,
+    8,
+    23,
+    32,
+    15,
+    50,
+    10,
+    31,
+    58,
+    3,
+    45,
+    35,
+    27,
+    43,
+    5,
+    49,
+    33,
+    9,
+    42,
+    19,
+    29,
+    28,
+    14,
+    39,
+    12,
+    38,
+    41,
+    13,
+    37,
+    48,
+    7,
+    16,
+    24,
+    55,
+    40,
+    61,
+    26,
+    17,
+    0,
+    1,
+    60,
+    51,
+    30,
+    4,
+    22,
+    25,
+    54,
+    21,
+    56,
+    59,
+    6,
+    63,
+    57,
+    62,
+    11,
+    36,
+    20,
+    34,
+    44,
+    52,
+]
+
 
 @dataclass(frozen=True)
 class Video:
@@ -65,10 +133,7 @@ def taipei_time(ts: int) -> str:
 def headers(mid: str, cookie: str | None = None) -> dict[str, str]:
     result = {
         "User-Agent": DEFAULT_USER_AGENT,
-        "Accept": "application/json, application/xml;q=0.9, text/xml;q=0.8, */*;q=0.7",
-        "Accept-Language": "zh-TW,zh;q=0.9,en;q=0.8",
-        "Referer": f"https://space.bilibili.com/{mid}/video",
-        "Origin": "https://space.bilibili.com",
+        "Referer": "https://www.bilibili.com/",
     }
     if cookie:
         result["Cookie"] = cookie
@@ -79,6 +144,28 @@ def fetch_text(url: str, mid: str, cookie: str | None = None, timeout: int = 30)
     request = urllib.request.Request(url, headers=headers(mid, cookie))
     with urllib.request.urlopen(request, timeout=timeout) as response:
         return response.read().decode("utf-8", errors="replace")
+
+
+def make_wbi_mixin_key(cookie: str | None) -> str:
+    payload = json.loads(fetch_text("https://api.bilibili.com/x/web-interface/nav", "0", cookie))
+    wbi_img = payload.get("data", {}).get("wbi_img", {}) or {}
+    img_key = Path(urllib.parse.urlparse(clean_text(wbi_img.get("img_url"))).path).stem
+    sub_key = Path(urllib.parse.urlparse(clean_text(wbi_img.get("sub_url"))).path).stem
+    raw_key = img_key + sub_key
+    if len(raw_key) < 64:
+        raise RuntimeError("Unable to get Bilibili WBI keys from nav response")
+    return "".join(raw_key[index] for index in WBI_MIXIN_KEY_ENC_TAB)[:32]
+
+
+def signed_wbi_query(params: dict[str, Any], mixin_key: str) -> str:
+    cleaned = {
+        key: "".join(char for char in str(value) if char not in "!'()*")
+        for key, value in params.items()
+    }
+    cleaned["wts"] = str(int(time.time()))
+    query = urllib.parse.urlencode(sorted(cleaned.items()))
+    w_rid = hashlib.md5(f"{query}{mixin_key}".encode("utf-8")).hexdigest()
+    return f"{query}&w_rid={w_rid}"
 
 
 def video_url(bvid: str) -> str:
@@ -172,11 +259,35 @@ def fetch_channel_videos(
     page_size: int,
 ) -> list[Video]:
     errors: list[str] = []
+    direct_urls: list[tuple[str, str, str | None]] = []
+    wbi_params = {
+        "mid": mid,
+        "ps": page_size,
+        "pn": 1,
+        "order": "pubdate",
+        "platform": "web",
+        "web_location": "1550101",
+        "order_avoided": "true",
+    }
+    wbi_sources = [("wbi-arc", cookie)]
+    if cookie:
+        wbi_sources.append(("wbi-arc-public", None))
+    for kind, request_cookie in wbi_sources:
+        try:
+            wbi_query = signed_wbi_query(wbi_params, make_wbi_mixin_key(request_cookie))
+            direct_urls.append(
+                (kind, f"https://api.bilibili.com/x/space/wbi/arc/search?{wbi_query}", request_cookie)
+            )
+        except (OSError, urllib.error.URLError, json.JSONDecodeError, RuntimeError) as exc:
+            errors.append(f"{kind}-sign: {exc}")
+
     direct_urls = [
+        *direct_urls,
         (
             "arc",
             "https://api.bilibili.com/x/space/arc/search?"
             + urllib.parse.urlencode({"mid": mid, "ps": page_size, "pn": 1, "order": "pubdate"}),
+            cookie,
         ),
         (
             "dynamic",
@@ -184,12 +295,13 @@ def fetch_channel_videos(
             + urllib.parse.urlencode(
                 {"host_mid": mid, "timezone_offset": -480, "features": "itemOpusStyle"}
             ),
+            cookie,
         ),
     ]
 
-    for kind, url in direct_urls:
+    for kind, url, request_cookie in direct_urls:
         try:
-            payload = json.loads(fetch_text(url, mid, cookie))
+            payload = json.loads(fetch_text(url, mid, request_cookie))
             if int(payload.get("code", -1)) != 0:
                 errors.append(f"{kind}: code {payload.get('code')} {payload.get('message')}")
                 continue
