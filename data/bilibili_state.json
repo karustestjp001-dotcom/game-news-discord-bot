@@ -2,34 +2,44 @@
   "channels": {
     "1265652806": {
       "initialized_at": "2026-07-09T00:10:12.530180+08:00",
-      "last_posted_at": "2026-07-15T20:06:44.622268+08:00",
-      "latest_pub_ts": 1784106000,
+      "last_posted_at": "2026-07-17T20:20:35.823506+08:00",
+      "latest_pub_ts": 1784170810,
       "seen_bvids": [
-        "BV1kENt6aET8",
+        "BV1fpK36mEqE",
         "BV1ExNt6oEUY",
-        "BV1dTNm6rEPA",
         "BV1gjNm6vE17",
-        "BV1ubNJ6XEuD",
-        "BV1W6NJ6LEv1",
-        "BV1ACNJ6VEwP",
-        "BV1EXNJ6TEm1",
-        "BV161Tr6ME6E",
-        "BV1Uy7L6uELj",
-        "BV1RT7v6KEYg",
-        "BV1tDjo6pEQp",
         "BV1a5Me6gEda",
+        "BV1kENt6aET8",
+        "BV1ACNJ6VEwP",
+        "BV1RT7v6KEYg",
+        "BV1ubNJ6XEuD",
+        "BV1dTNm6rEPA",
+        "BV1W6NJ6LEv1",
+        "BV161Tr6ME6E",
+        "BV1tDjo6pEQp",
+        "BV1EXNJ6TEm1",
         "BV1huME6tE7C",
-        "BV1JkTD6wEv9"
+        "BV1JkTD6wEv9",
+        "BV1Uy7L6uELj"
       ]
     },
     "161775300": {
       "initialized_at": "2026-07-09T00:10:15.879873+08:00",
-      "last_posted_at": "2026-07-12T15:40:23.904312+08:00",
-      "latest_pub_ts": 1783825210,
+      "last_posted_at": "2026-07-17T20:20:40.707431+08:00",
+      "latest_pub_ts": 1784260866,
       "seen_bvids": [
+        "BV1w9KE6rEPi",
+        "BV17wKJ6NEjP",
         "BV19GNP6EE7e",
         "BV1SCNj61Eqk",
-        "BV1bHMe6vEJN"
+        "BV1bHMe6vEJN",
+        "BV1FFMw6hEdw",
+        "BV161Tr6ME6E",
+        "BV1FZ7V6XEpT",
+        "BV1y2736HEc3",
+        "BV1Xd7q63E1v",
+        "BV1ArjW6nE1V",
+        "BV1GiEg6PE3v"
       ]
     },
     "3546983822264909": {
@@ -51,5 +61,5 @@
       ]
     }
   },
-  "updated_at": "2026-07-16T04:42:29.377683+08:00"
+  "updated_at": "2026-07-17T20:20:47.850484+08:00"
 }
