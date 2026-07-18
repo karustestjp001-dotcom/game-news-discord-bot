@@ -25,27 +25,30 @@
     },
     "161775300": {
       "initialized_at": "2026-07-09T00:10:15.879873+08:00",
-      "last_posted_at": "2026-07-17T20:20:40.707431+08:00",
-      "latest_pub_ts": 1784260866,
+      "last_posted_at": "2026-07-19T04:06:59.690667+08:00",
+      "latest_pub_ts": 1784347223,
       "seen_bvids": [
+        "BV12pNo6HEFa",
         "BV1w9KE6rEPi",
         "BV17wKJ6NEjP",
-        "BV19GNP6EE7e",
         "BV1SCNj61Eqk",
-        "BV1bHMe6vEJN",
-        "BV1FFMw6hEdw",
+        "BV19GNP6EE7e",
         "BV161Tr6ME6E",
-        "BV1FZ7V6XEpT",
-        "BV1y2736HEc3",
-        "BV1Xd7q63E1v",
         "BV1ArjW6nE1V",
-        "BV1GiEg6PE3v"
+        "BV1y2736HEc3",
+        "BV1bHMe6vEJN",
+        "BV1FZ7V6XEpT",
+        "BV1FFMw6hEdw",
+        "BV1GiEg6PE3v",
+        "BV1Xd7q63E1v"
       ]
     },
     "3546983822264909": {
       "initialized_at": "2026-07-16T04:42:29.377567+08:00",
-      "latest_pub_ts": 1784088000,
+      "last_posted_at": "2026-07-19T04:07:04.614783+08:00",
+      "latest_pub_ts": 1784347200,
       "seen_bvids": [
+        "BV1h8Nd6ZERa",
         "BV1grNt62E9y",
         "BV1e6NX6WEzS",
         "BV1x6Ny6HECZ",
@@ -61,5 +64,5 @@
       ]
     }
   },
-  "updated_at": "2026-07-17T20:20:47.850484+08:00"
+  "updated_at": "2026-07-19T04:07:05.911066+08:00"
 }
