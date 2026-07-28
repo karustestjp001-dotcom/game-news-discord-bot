@@ -28,25 +28,30 @@
     },
     "161775300": {
       "initialized_at": "2026-07-09T00:10:15.879873+08:00",
-      "last_posted_at": "2026-07-28T01:22:22.379723+08:00",
-      "latest_pub_ts": 1784984262,
+      "last_posted_at": "2026-07-28T15:58:15.610130+08:00",
+      "latest_pub_ts": 1785207600,
       "seen_bvids": [
+        "BV13J3F6SEWr",
         "BV1nB3u6tEHD",
         "BV1o43g69E9z",
-        "BV17wKJ6NEjP",
-        "BV1y2736HEc3",
-        "BV19GNP6EE7e",
-        "BV161Tr6ME6E",
-        "BV1FZ7V6XEpT",
-        "BV1GiEg6PE3v",
-        "BV1FFMw6hEdw",
-        "BV1w9KE6rEPi",
-        "BV1ArjW6nE1V",
+        "BV1Ag3M6ZESL",
+        "BV1cL3M6xEQf",
+        "BV1bf3T6KE2e",
+        "BV1KN3M6wEm9",
         "BV161K26SEE1",
         "BV12pNo6HEFa",
-        "BV1Xd7q63E1v",
+        "BV1w9KE6rEPi",
+        "BV17wKJ6NEjP",
+        "BV19GNP6EE7e",
+        "BV1FFMw6hEdw",
+        "BV1FZ7V6XEpT",
+        "BV1y2736HEc3",
         "BV1SCNj61Eqk",
-        "BV1bHMe6vEJN"
+        "BV1bHMe6vEJN",
+        "BV1Xd7q63E1v",
+        "BV161Tr6ME6E",
+        "BV1ArjW6nE1V",
+        "BV1GiEg6PE3v"
       ]
     },
     "3546983822264909": {
@@ -71,5 +76,5 @@
       ]
     }
   },
-  "updated_at": "2026-07-28T05:54:20.886989+08:00"
+  "updated_at": "2026-07-28T15:58:21.591278+08:00"
 }
