@@ -2,33 +2,35 @@
   "channels": {
     "1265652806": {
       "initialized_at": "2026-07-09T00:10:12.530180+08:00",
-      "last_posted_at": "2026-08-09T17:00:35.880681+08:00",
-      "latest_pub_ts": 1786244413,
+      "last_posted_at": "2026-08-21T19:39:01.958196+08:00",
+      "latest_pub_ts": 1787312105,
       "seen_bvids": [
-        "BV16euL6qETC",
+        "BV1BW8q6jEDo",
+        "BV1VQ8i6uEr4",
         "BV1egub6hEwp",
-        "BV1huME6tE7C",
-        "BV1qQuH6JExS",
-        "BV1oF3t6KEFA",
-        "BV1gjNm6vE17",
-        "BV1ACNJ6VEwP",
-        "BV1JkTD6wEv9",
-        "BV1syuA6GETK",
-        "BV1CFgr6SEZB",
-        "BV1fpK36mEqE",
-        "BV1ExNt6oEUY",
-        "BV1EXNJ6TEm1",
         "BV15KNo6PEza",
-        "BV1W6NJ6LEv1",
-        "BV1t9gQ6WEsw",
+        "BV1ACNJ6VEwP",
         "BV1kENt6aET8",
-        "BV161Tr6ME6E",
-        "BV1tDjo6pEQp",
-        "BV1a5Me6gEda",
+        "BV1W6NJ6LEv1",
         "BV1dTNm6rEPA",
-        "BV1ubNJ6XEuD",
+        "BV1ExNt6oEUY",
+        "BV1gjNm6vE17",
+        "BV1t9gQ6WEsw",
+        "BV1syuA6GETK",
+        "BV161Tr6ME6E",
+        "BV1RT7v6KEYg",
+        "BV1qQuH6JExS",
         "BV1Uy7L6uELj",
-        "BV1RT7v6KEYg"
+        "BV1ubNJ6XEuD",
+        "BV1CFgr6SEZB",
+        "BV1huME6tE7C",
+        "BV1EXNJ6TEm1",
+        "BV16euL6qETC",
+        "BV1oF3t6KEFA",
+        "BV1JkTD6wEv9",
+        "BV1a5Me6gEda",
+        "BV1fpK36mEqE",
+        "BV1tDjo6pEQp"
       ]
     },
     "161775300": {
@@ -85,5 +87,5 @@
       ]
     }
   },
-  "updated_at": "2026-08-16T22:36:40.839225+08:00"
+  "updated_at": "2026-08-21T19:39:14.456663+08:00"
 }
