@@ -40,9 +40,10 @@
     },
     "161775300": {
       "initialized_at": "2026-07-09T00:10:15.879873+08:00",
-      "last_posted_at": "2026-08-29T22:27:16.124700+08:00",
-      "latest_pub_ts": 1787972400,
+      "last_posted_at": "2026-09-03T00:32:27.788602+08:00",
+      "latest_pub_ts": 1788318000,
       "seen_bvids": [
+        "BV1RhtV6iEt3",
         "BV1zCtA6mEay",
         "BV1PLhw6fELK",
         "BV1N7gM6FEUA",
@@ -54,19 +55,19 @@
         "BV1cL3M6xEQf",
         "BV1bf3T6KE2e",
         "BV1KN3M6wEm9",
-        "BV161K26SEE1",
-        "BV1ArjW6nE1V",
-        "BV1y2736HEc3",
-        "BV12pNo6HEFa",
-        "BV161Tr6ME6E",
-        "BV1SCNj61Eqk",
-        "BV1FFMw6hEdw",
-        "BV1Xd7q63E1v",
-        "BV1bHMe6vEJN",
-        "BV19GNP6EE7e",
         "BV1w9KE6rEPi",
-        "BV1GiEg6PE3v",
+        "BV1Xd7q63E1v",
+        "BV1y2736HEc3",
+        "BV1bHMe6vEJN",
+        "BV1SCNj61Eqk",
         "BV1FZ7V6XEpT",
+        "BV161Tr6ME6E",
+        "BV12pNo6HEFa",
+        "BV161K26SEE1",
+        "BV1FFMw6hEdw",
+        "BV1GiEg6PE3v",
+        "BV1ArjW6nE1V",
+        "BV19GNP6EE7e",
         "BV17wKJ6NEjP"
       ]
     },
@@ -97,5 +98,5 @@
       ]
     }
   },
-  "updated_at": "2026-09-02T19:14:28.602663+08:00"
+  "updated_at": "2026-09-03T00:32:32.912412+08:00"
 }
