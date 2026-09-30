@@ -79,9 +79,10 @@
     },
     "3546983822264909": {
       "initialized_at": "2026-07-16T04:42:29.377567+08:00",
-      "last_posted_at": "2026-09-29T16:26:19.563339+08:00",
-      "latest_pub_ts": 1790589600,
+      "last_posted_at": "2026-09-30T14:40:49.701231+08:00",
+      "latest_pub_ts": 1790740800,
       "seen_bvids": [
+        "BV1KJaW68ERQ",
         "BV1aKaG6zE17",
         "BV1J6aN6AEao",
         "BV1mxhH6XEA2",
@@ -93,20 +94,20 @@
         "BV1UngW6GEha",
         "BV1Cz3w6CECa",
         "BV1h8Nd6ZERa",
-        "BV1grNt62E9y",
-        "BV1vtdsBiE8o",
         "BV1CSEM62E85",
-        "BV1KtVd6zECk",
-        "BV1e6NX6WEzS",
-        "BV1tSEv6hE65",
-        "BV1YQdWBcEpB",
         "BV15d7D6UEGX",
-        "BV1ukNx6MEFy",
+        "BV1KtVd6zECk",
+        "BV1YQdWBcEpB",
+        "BV1tSEv6hE65",
+        "BV1vtdsBiE8o",
         "BV1Ys5169EGj",
-        "BV1x6Ny6HECZ",
-        "BV1d5jc6zEjp"
+        "BV1e6NX6WEzS",
+        "BV1d5jc6zEjp",
+        "BV1grNt62E9y",
+        "BV1ukNx6MEFy",
+        "BV1x6Ny6HECZ"
       ]
     }
   },
-  "updated_at": "2026-09-29T16:26:20.796350+08:00"
+  "updated_at": "2026-09-30T14:40:51.215856+08:00"
 }
